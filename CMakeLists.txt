@@ -8,14 +8,9 @@ endif()
 
 add_library(nwlibc_windows OBJECT src/c/platform/windows/windows.cpp)
 add_library(nwlibc STATIC
-    src/c/string/string.cpp
         lib/c/include/stddef.h
         lib/c/include/internal/__stddef.h
     $<TARGET_OBJECTS:nwlibc_windows>)
-add_library(nwlibcxx STATIC
-    src/c++/cstddef.cpp
-    lib/c++/include/cstddef
-    lib/c++/include/cstring)
 add_library(nwlibc::nwlibc ALIAS nwlibc)
 add_library(nwlibc::c ALIAS nwlibc)
 add_library(nwlibc::cxx ALIAS nwlibcxx)
@@ -25,7 +20,7 @@ target_include_directories(nwlibcxx PUBLIC lib/c++/include)
 target_link_libraries(nwlibc PRIVATE kernel32)
 target_link_libraries(nwlibcxx PUBLIC nwlibc)
 set_target_properties(nwlibc nwlibcxx nwlibc_windows PROPERTIES
-    C_STANDARD 17 C_STANDARD_REQUIRED YES C_EXTENSIONS NO
+    C_STANDARD 23 C_STANDARD_REQUIRED YES C_EXTENSIONS NO
     CXX_STANDARD 23 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 
 # Disable MSVC runtime checks and exception handling defaults.
