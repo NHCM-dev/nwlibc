@@ -1,0 +1,6 @@
+#ifndef NWLIBC_CSTRING
+#define NWLIBC_CSTRING
+
+#include <string.h>
+
+#endif
