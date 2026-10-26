@@ -1,0 +1,7 @@
+/build/
+/cmake-build-*/
+/.idea/
+/.vs/
+/CMakeUserPresets.json
+*.user
+*.pdb
