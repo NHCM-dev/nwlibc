@@ -8,9 +8,15 @@ endif()
 
 add_library(nwlibc_windows OBJECT src/c/platform/windows/windows.cpp)
 add_library(nwlibc STATIC
+        src/c/string.c
         lib/c/include/stddef.h
         lib/c/include/internal/__stddef.h
+        lib/c/include/string.h
+        lib/c/include/internal/__cdefs.h
     $<TARGET_OBJECTS:nwlibc_windows>)
+add_library(nwlibcxx STATIC
+    src/c++/empty.cpp
+        lib/c++/include/cstddef)
 add_library(nwlibc::nwlibc ALIAS nwlibc)
 add_library(nwlibc::c ALIAS nwlibc)
 add_library(nwlibc::cxx ALIAS nwlibcxx)
@@ -19,12 +25,18 @@ target_include_directories(nwlibc PUBLIC lib/c/include)
 target_include_directories(nwlibcxx PUBLIC lib/c++/include)
 target_link_libraries(nwlibc PRIVATE kernel32)
 target_link_libraries(nwlibcxx PUBLIC nwlibc)
-set_target_properties(nwlibc nwlibcxx nwlibc_windows PROPERTIES
+
+add_executable(nwlibc_example test/main.cpp)
+target_link_libraries(nwlibc_example PRIVATE nwlibc::cxx)
+
+set_target_properties(nwlibc nwlibcxx nwlibc_windows nwlibc_example PROPERTIES
     C_STANDARD 23 C_STANDARD_REQUIRED YES C_EXTENSIONS NO
     CXX_STANDARD 23 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 
 # Disable MSVC runtime checks and exception handling defaults.
 if(MSVC)
+    # MSVC currently provides C17 mode, while GNU/Clang use C23 above.
+    set_target_properties(nwlibc PROPERTIES C_STANDARD 17)
     foreach(language C CXX)
         foreach(config DEBUG RELEASE RELWITHDEBINFO MINSIZEREL)
             string(REGEX REPLACE "/RTC[1su]+" "" CMAKE_${language}_FLAGS_${config}
@@ -37,7 +49,7 @@ elseif(NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 # SDK includes are confined to nwlibc_windows.
-foreach(target nwlibc nwlibcxx)
+foreach(target nwlibc nwlibcxx nwlibc_example)
     if(MSVC)
         target_compile_options(${target} PRIVATE /X)
     else()

@@ -8,7 +8,7 @@
 typedef __size_t size_t;
 typedef __ptrdiff_t ptrdiff_t;
 #ifndef __cplusplus
-typedef __wchar_t wchar_t;
+typedef __nwlibc_wchar_t wchar_t;
 #endif
 
 #ifdef __cplusplus

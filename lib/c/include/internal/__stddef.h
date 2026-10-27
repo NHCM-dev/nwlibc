@@ -15,6 +15,6 @@ typedef int __ptrdiff_t;
 #error Unsupported architecture
 #endif
 
-typedef unsigned short __wchar_t;
+typedef unsigned short __nwlibc_wchar_t;
 
 #endif

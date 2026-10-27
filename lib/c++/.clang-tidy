@@ -1,0 +1,2 @@
+InheritParentConfig: true
+Checks: '-cert-*-c,performance-*,modernize-use-nullptr,modernize-use-override'
