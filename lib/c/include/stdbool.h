@@ -5,7 +5,9 @@
 #ifndef NWLIBC_STDBOOL_H
 #define NWLIBC_STDBOOL_H
 
-#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L
+#include <internal/__cdefs.h>
+
+#if NWLIBC_STDC_BEFORE(NWLIBC_STDC_C23)
 
 #define bool _Bool
 #define true 1

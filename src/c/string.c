@@ -412,7 +412,6 @@ char* strndup(const char* string, size_t character_count)
 
 char* strerror(int error_number)
 {
-
     switch (error_number)
     {
     case EDOM:

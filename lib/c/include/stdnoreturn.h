@@ -5,7 +5,9 @@
 #ifndef NWLIBC_STDNORETURN_H
 #define NWLIBC_STDNORETURN_H
 
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L && __STDC_VERSION__ < 202311L
+#include <internal/__cdefs.h>
+
+#if NWLIBC_STDC_IN_RANGE(NWLIBC_STDC_C11, NWLIBC_STDC_C23)
 
 #define noreturn _Noreturn
 

@@ -16,8 +16,6 @@ if(MSVC)
         "/FI${CMAKE_CURRENT_SOURCE_DIR}/lib/c/include/internal/__windows_sdk.h")
 endif()
 
-add_library(nwlibc_windows OBJECT src/c/platform/windows/windows.cpp)
-target_link_libraries(nwlibc_windows PRIVATE nwlibc_winapi)
 add_library(nwlibc STATIC
         src/c/errno.c
         lib/c/include/errno.h
@@ -28,7 +26,6 @@ add_library(nwlibc STATIC
         lib/c/include/internal/__stddef.h
         lib/c/include/string.h
         lib/c/include/internal/__cdefs.h
-    $<TARGET_OBJECTS:nwlibc_windows>
         lib/c/include/internal/__stdlib.h
         src/c/internal/__stdlib.c
         src/c/stdio.c
@@ -56,7 +53,7 @@ target_link_libraries(nwlibcxx PUBLIC nwlibc)
 add_executable(nwlibc_example test/main.c)
 target_link_libraries(nwlibc_example PRIVATE nwlibc::cxx)
 
-set_target_properties(nwlibc nwlibcxx nwlibc_windows nwlibc_example PROPERTIES
+set_target_properties(nwlibc nwlibcxx nwlibc_example PROPERTIES
     C_STANDARD 23 C_STANDARD_REQUIRED YES C_EXTENSIONS NO
     CXX_STANDARD 23 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 
@@ -84,7 +81,7 @@ foreach(target nwlibc nwlibcxx nwlibc_example)
     endif()
 endforeach()
 
-foreach(target nwlibc nwlibcxx nwlibc_windows)
+foreach(target nwlibc nwlibcxx)
     if(MSVC)
         target_compile_options(${target} PRIVATE
             /W4 /WX /GS- /Zl /Oi-

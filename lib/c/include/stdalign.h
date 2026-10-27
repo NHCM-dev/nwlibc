@@ -5,7 +5,9 @@
 #ifndef NWLIBC_STDALIGN_H
 #define NWLIBC_STDALIGN_H
 
-#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 202311L
+#include <internal/__cdefs.h>
+
+#if NWLIBC_STDC_BEFORE(NWLIBC_STDC_C23)
 
 #define alignas _Alignas
 #define alignof _Alignof
