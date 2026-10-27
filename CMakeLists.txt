@@ -35,7 +35,9 @@ add_library(nwlibc STATIC
         lib/c/include/ctype.h
         src/c/internal/__ctype.c
         lib/c/include/internal/__ctype.h
-        src/c/ctype.c)
+        src/c/ctype.c
+        lib/c/include/stdalign.h
+        lib/c/include/stdnoreturn.h)
 add_library(nwlibcxx STATIC
     src/c++/empty.cpp
         lib/c++/include/cstddef)

@@ -9,9 +9,9 @@
 #ifndef NWLIBC_CTYPE_H
 #define NWLIBC_CTYPE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <internal/__cdefs.h>
+
+NWLIBC_BEGIN_DECLS
 
 int isalnum(int character);
 int isalpha(int character);
@@ -31,8 +31,6 @@ int isxdigit(int character);
 int tolower(int character);
 int toupper(int character);
 
-#ifdef __cplusplus
-}
-#endif
+NWLIBC_END_DECLS
 
 #endif //NWLIBC_CTYPE_H
