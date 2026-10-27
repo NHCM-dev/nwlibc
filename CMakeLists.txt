@@ -19,6 +19,9 @@ endif()
 add_library(nwlibc_windows OBJECT src/c/platform/windows/windows.cpp)
 target_link_libraries(nwlibc_windows PRIVATE nwlibc_winapi)
 add_library(nwlibc STATIC
+        src/c/errno.c
+        lib/c/include/errno.h
+        lib/c/include/internal/__errno.h
         src/c/string.c
         src/c/stdlib.c
         lib/c/include/stddef.h
@@ -60,7 +63,7 @@ set_target_properties(nwlibc nwlibcxx nwlibc_windows nwlibc_example PROPERTIES
 # Disable MSVC runtime checks and exception handling defaults.
 if(MSVC)
     # MSVC currently provides C17 mode, while GNU/Clang use C23 above.
-    set_target_properties(nwlibc PROPERTIES C_STANDARD 17)
+    set_target_properties(nwlibc nwlibc_example PROPERTIES C_STANDARD 17)
     foreach(language C CXX)
         foreach(config DEBUG RELEASE RELWITHDEBINFO MINSIZEREL)
             string(REGEX REPLACE "/RTC[1su]+" "" CMAKE_${language}_FLAGS_${config}

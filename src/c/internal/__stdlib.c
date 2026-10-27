@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <internal/__stdlib.h>
+#include <errno.h>
 
 void* __stdlib_malloc(size_t size)
 {
@@ -12,7 +13,14 @@ void* __stdlib_malloc(size_t size)
         size = 1;
     }
 
-    return HeapAlloc(GetProcessHeap(),0,size);
+    void* result = HeapAlloc(GetProcessHeap(), 0, size);
+
+    if (result == NULL)
+    {
+        errno = ENOMEM;
+    }
+
+    return result;
 }
 
 void __stdlib_free(void* pointer)
