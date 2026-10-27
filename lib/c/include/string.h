@@ -64,6 +64,10 @@ char* strdup(const char* string);
 
 char* strndup(const char* string, size_t character_count);
 
+/* Optional functions */
+
+char* strerror(int error_number);
+
 NWLIBC_END_DECLS
 
 /* C23 7.26.5: search expressions preserve the searched array's const qualification.

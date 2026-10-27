@@ -7,6 +7,17 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <errno.h>
+
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
+#include "errno.h"
 
 void* memcpy(void* NWLIBC_RESTRICT destination, const void* NWLIBC_RESTRICT source, size_t byte_count)
 {
@@ -395,4 +406,168 @@ char* strndup(const char* string, size_t character_count)
     result[copy_length] = '\0';
 
     return result;
+}
+
+/* Optional functions */
+
+char* strerror(int error_number)
+{
+
+    switch (error_number)
+    {
+    case EDOM:
+        return "Argument out of domain";
+    case ERANGE:
+        return "Result out of range";
+    case EILSEQ:
+        return "Illegal byte sequence";
+    case EPERM:
+        return "Operation not permitted";
+    case ENOENT:
+        return "No such file or directory";
+    case ESRCH:
+        return "No such process";
+    case EINTR:
+        return "Operation interrupted";
+    case EIO:
+        return "IO exception occurred";
+    case ENXIO:
+        return "Invalid device or device address";
+    case E2BIG:
+        return "Argument list too big";
+    case ENOEXEC:
+        return "Invalid executable format";
+    case EBADF:
+        return "Bad file descriptor";
+    case ECHILD:
+        return "No child processes";
+    case EAGAIN:
+        return "Resource temporarily not available";
+    case ENOMEM:
+        return "Out of memory";
+    case EACCES:
+        return "Access denied";
+    case EFAULT:
+        return "Bad memory address";
+    case EBUSY:
+        return "Device or resource is busy";
+    case EEXIST:
+        return "File already exists";
+    case EXDEV:
+        return "Cross device linkage";
+    case ENODEV:
+        return "No such device";
+    case ENOTDIR:
+        return "Not a directory";
+    case EISDIR:
+        return "Is a directory";
+    case EINVAL:
+        return "Invalid argument";
+    case ENFILE:
+        return "Too many files opened by the system";
+    case EMFILE:
+        return "Too many files opened by the process";
+    case ENOTTY:
+        return "Inappropriate device control operation";
+    case EFBIG:
+        return "File too large";
+    case ENOSPC:
+        return "Device out of space";
+    case ESPIPE:
+        return "Illegal locating operation";
+    case EROFS:
+        return "Read-only file system";
+    case EMLINK:
+        return "Too many links";
+    case EDEADLK:
+        return "Dead lock will occur";
+    case ENAMETOOLONG:
+        return "File name too long";
+    case ENOLCK:
+        return "Out of lock resource";
+    case ENOSYS:
+        return "Function not implemented";
+    case ENOTEMPTY:
+        return "Directory is not empty";
+    case EADDRINUSE:
+        return "Address already in use";
+    case EADDRNOTAVAIL:
+        return "Address not available";
+    case EAFNOSUPPORT:
+        return "Address family not supported";
+    case EALREADY:
+        return "Operation already in progress";
+    case EBADMSG:
+        return "Bad message";
+    case ECANCELED:
+        return "Operation canceled";
+    case ECONNABORTED:
+        return "Connection aborted";
+    case ECONNREFUSED:
+        return "Connection refused";
+    case ECONNRESET:
+        return "Connection reset";
+    case EDESTADDRREQ:
+        return "Destination address required";
+    case EHOSTUNREACH:
+        return "Host not reachable";
+    case EIDRM:
+        return "Identifier removed";
+    case EINPROGRESS:
+        return "Operation in progress";
+    case EISCONN:
+        return "Already connected";
+    case ELOOP:
+        return "Too many symbolic links encountered";
+    case EMSGSIZE:
+        return "Message too long";
+    case ENETDOWN:
+        return "Network is down";
+    case ENETRESET:
+        return "Network reset";
+    case ENETUNREACH:
+        return "Network not reachable";
+    case ENOBUFS:
+        return "No buffer space available";
+    case ENODATA:
+        return "No avaliable data";
+    case ENOLINK:
+        return "Linkage unlinked";
+    case ENOMSG:
+        return "No appropriate message";
+    case ENOPROTOOPT:
+        return "Protocol option not available";
+    case ENOSR:
+        return "Not connected yet";
+    case ENOSTR:
+        return "STREAMS out of resource";
+    case ENOTCONN:
+        return "Not connected yet";
+    case ENOTRECOVERABLE:
+        return "State not recoverable";
+    case ENOTSOCK:
+        return "Not socket";
+    case ENOTSUP:
+        return "Function not supported";
+    case EOPNOTSUPP:
+        return "Operation not supported";
+    case EOVERFLOW:
+        return "Value cannot be represented by target type";
+    case EOWNERDEAD:
+        return "Lock owner halted";
+    case EPROTO:
+        return "Protocol error";
+    case EPROTONOSUPPORT:
+        return "Protocol not supported";
+    case ETIME:
+        return "Stream operation timed out";
+    case ETIMEDOUT:
+        return "Operation timed out";
+    case ETXTBSY:
+        return "Executable file is busy";
+    case EWOULDBLOCK:
+        return "Operation would block";
+    default:
+        return "Unknown error";
+    }
 }
