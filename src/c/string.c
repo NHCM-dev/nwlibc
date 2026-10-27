@@ -338,7 +338,7 @@ void* memset(void* destination, int value, size_t byte_count)
     return destination;
 }
 
-/* TODO: guarantee that these writes cannot be removed by optimization. */
+/* todo: guarantee that these writes cannot be removed by optimization. */
 void* memset_explicit(void* destination, int value, size_t byte_count);
 
 //*todo: require errno.h implementation*

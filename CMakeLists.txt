@@ -30,7 +30,12 @@ add_library(nwlibc STATIC
         src/c/internal/__stdlib.c
         src/c/stdio.c
         lib/c/include/internal/__stdio.h
-        src/c/internal/__stdio.c)
+        src/c/internal/__stdio.c
+        lib/c/include/stdbool.h
+        lib/c/include/ctype.h
+        src/c/internal/__ctype.c
+        lib/c/include/internal/__ctype.h
+        src/c/ctype.c)
 add_library(nwlibcxx STATIC
     src/c++/empty.cpp
         lib/c++/include/cstddef)
