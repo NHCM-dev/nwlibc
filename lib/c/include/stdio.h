@@ -5,4 +5,6 @@
 #ifndef NWLIBC_STDIO_H
 #define NWLIBC_STDIO_H
 
+int puts(const char* string);
+
 #endif //NWLIBC_STDIO_H

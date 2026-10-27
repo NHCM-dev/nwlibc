@@ -3,6 +3,7 @@
 //
 
 #define NWLIBC_STRING_NO_GENERIC
+
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>

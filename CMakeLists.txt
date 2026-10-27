@@ -6,14 +6,31 @@ if(NOT WIN32)
     message(FATAL_ERROR "nwlibc currently targets Windows only")
 endif()
 
+add_library(nwlibc_winapi INTERFACE)
+add_library(nwlibc::winapi ALIAS nwlibc_winapi)
+target_compile_definitions(nwlibc_winapi INTERFACE WIN32_LEAN_AND_MEAN NOMINMAX)
+target_link_libraries(nwlibc_winapi INTERFACE kernel32 user32)
+if(MSVC)
+    # SDK stralign.h needs wide CRT declarations absent from our partial string.h.
+    target_compile_options(nwlibc_winapi INTERFACE
+        "/FI${CMAKE_CURRENT_SOURCE_DIR}/lib/c/include/internal/__windows_sdk.h")
+endif()
+
 add_library(nwlibc_windows OBJECT src/c/platform/windows/windows.cpp)
+target_link_libraries(nwlibc_windows PRIVATE nwlibc_winapi)
 add_library(nwlibc STATIC
         src/c/string.c
+        src/c/stdlib.c
         lib/c/include/stddef.h
         lib/c/include/internal/__stddef.h
         lib/c/include/string.h
         lib/c/include/internal/__cdefs.h
-    $<TARGET_OBJECTS:nwlibc_windows>)
+    $<TARGET_OBJECTS:nwlibc_windows>
+        lib/c/include/internal/__stdlib.h
+        src/c/internal/__stdlib.c
+        src/c/stdio.c
+        lib/c/include/internal/__stdio.h
+        src/c/internal/__stdio.c)
 add_library(nwlibcxx STATIC
     src/c++/empty.cpp
         lib/c++/include/cstddef)
@@ -23,10 +40,10 @@ add_library(nwlibc::cxx ALIAS nwlibcxx)
 
 target_include_directories(nwlibc PUBLIC lib/c/include)
 target_include_directories(nwlibcxx PUBLIC lib/c++/include)
-target_link_libraries(nwlibc PRIVATE kernel32)
+target_link_libraries(nwlibc PUBLIC nwlibc_winapi)
 target_link_libraries(nwlibcxx PUBLIC nwlibc)
 
-add_executable(nwlibc_example test/main.cpp)
+add_executable(nwlibc_example test/main.c)
 target_link_libraries(nwlibc_example PRIVATE nwlibc::cxx)
 
 set_target_properties(nwlibc nwlibcxx nwlibc_windows nwlibc_example PROPERTIES
@@ -48,16 +65,14 @@ elseif(NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     message(FATAL_ERROR "Unsupported compiler: ${CMAKE_CXX_COMPILER_ID}")
 endif()
 
-# SDK includes are confined to nwlibc_windows.
+# SDK and C runtime support headers are available to all sources.
+# Keep the toolchain's C++ standard library headers disabled on GNU/Clang.
 foreach(target nwlibc nwlibcxx nwlibc_example)
-    if(MSVC)
-        target_compile_options(${target} PRIVATE /X)
-    else()
+    if(NOT MSVC)
         target_compile_options(${target} PRIVATE
-            -nostdinc $<$<COMPILE_LANGUAGE:CXX>:-nostdinc++> -ffreestanding)
+            $<$<COMPILE_LANGUAGE:CXX>:-nostdinc++>)
     endif()
 endforeach()
-target_compile_definitions(nwlibc_windows PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
 
 foreach(target nwlibc nwlibcxx nwlibc_windows)
     if(MSVC)
